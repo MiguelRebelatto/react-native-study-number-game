@@ -1,18 +1,27 @@
 import { useState } from 'react';
 import { StyleSheet, ImageBackground, SafeAreaView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+// import { useFonts } from 'expo-font';
 
 import StartScreenGame from './@pages/start-screen-game';
 import GameScreen from './@pages/game-screen';
 import Colors from './constants/colors';
 import GameOverScreen from './@pages/game-over-screen';
+// import AppLoading from 'expo-app-loading';
 
 export default function App() {
   const [useNumber, setUseNumber] = useState();
   const [gameIsOver, setGameIsOver] = useState(true);
   const [guessRounds, setGuessRounds] = useState(0);
 
-  const [gameoIsOver, setGameoIsOver] = useState(true);
+  // const [fontsLoaded] = useFonts({
+  //   'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
+  //   'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf')
+  // })
+
+  // if (!fontsLoaded) {
+  //   return <AppLoading />
+  // }
 
   function numberHandler(pickedNumber) {
     setUseNumber(pickedNumber);

@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
         margin: 24,
         borderRadius: 8,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     title: {
         fontSize: 36,

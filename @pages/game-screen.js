@@ -1,9 +1,10 @@
-import { Alert, StyleSheet, Text, View } from 'react-native';
+import { Alert, StyleSheet, View } from 'react-native';
 import Title from '../@components/ui/title';
 import NumberContainer from '../@components/game/number-container';
 import PrimaryButton from '../@components/ui/primary-button';
 import { useState, useEffect } from 'react';
-import Colors from '../constants/colors';
+import Card from '../@components/ui/card';
+import InstructionText from '../@components/ui/intruction-text';
 
 function generateRandomBetween(min, max, exclude) {
     const random = Math.floor(Math.random() * (max - min)) + min;
@@ -46,16 +47,20 @@ function GameScreen({ userNumber, onGameOver }) {
     }
 
     return (
-        <View style={styles.container}>
+        <View style={styles.screenContainer}>
             <Title>Opponent's Guess</Title>
             <NumberContainer>{currentGuess}</NumberContainer>
-            <View>
-                <Text style={styles.title}>Higher or lower?</Text>
-                <View>
-                    <PrimaryButton title="+" onPress={nextGuessHandler.bind(this, 'lower')} />
-                    <PrimaryButton title="-" onPress={nextGuessHandler.bind(this, 'greater')} />
+            <Card>
+                <InstructionText>Higher or lower?</InstructionText>
+                <View style={styles.buttonsContainer}>
+                    <View style={styles.buttonContainer}>
+                        <PrimaryButton title="+" onPress={nextGuessHandler.bind(this, 'lower')} />
+                    </View>
+                    <View style={styles.buttonContainer}>
+                        <PrimaryButton title="-" onPress={nextGuessHandler.bind(this, 'greater')} />
+                    </View>
                 </View>
-            </View>
+            </Card>
         </View>
     );
 }
@@ -63,14 +68,16 @@ function GameScreen({ userNumber, onGameOver }) {
 export default GameScreen;
 
 const styles = StyleSheet.create({
-    container: {
+    screenContainer: {
         flex: 1,
-        padding: 24,
-        marginTop: 100
+        marginTop: 100,
+        alignItems: 'center'
     },
-    title: {
-        fontSize: 18,
-        color: Colors.accent100
+    buttonsContainer: {
+        flexDirection: "row",
+        marginTop: 8
     },
-
+    buttonContainer: {
+        flex: 1
+    }
 });

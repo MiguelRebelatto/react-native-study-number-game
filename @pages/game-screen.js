@@ -6,6 +6,7 @@ import Title from '../@components/ui/title';
 import InstructionText from '../@components/ui/intruction-text';
 import PrimaryButton from '../@components/ui/primary-button';
 import NumberContainer from '../@components/game/number-container';
+import GuessLogItem from '../@components/game/guess-log-item';
 
 function generateRandomBetween(min, max, exclude) {
     const random = Math.floor(Math.random() * (max - min)) + min;
@@ -22,11 +23,11 @@ let maxBoundary = 100;
 function GameScreen({ userNumber, onGameOver }) {
     const intialGuess = generateRandomBetween(1, 100, userNumber)
     const [currentGuess, setCurrentGuess] = useState(intialGuess);
-    const [guessRounds, setGuessRounds] = useState([]);
+    const [guessRounds, setGuessRounds] = useState([intialGuess]);
 
     useEffect(() => {
         if (currentGuess === userNumber) {
-            onGameOver();
+            onGameOver(guessRounds.length);
         }
     }, [currentGuess, userNumber, onGameOver])
 
@@ -35,6 +36,8 @@ function GameScreen({ userNumber, onGameOver }) {
         minBoundary = 1;
         maxBoundary = 100;
     }, [])
+
+    let guessRoundsListLenght = guessRounds.length;
 
     /* direction: 'lower' | 'greater' */
     function nextGuessHandler(direction) {
@@ -78,7 +81,7 @@ function GameScreen({ userNumber, onGameOver }) {
                 {/* {guessRounds.map(item => (<Text key={item}>{item}</Text>))} */}
                 <FlatList
                     data={guessRounds}
-                    renderItem={(itemData) => <Text key={itemData.item}>{itemData.item}</Text>}
+                    renderItem={(itemData) => <GuessLogItem roundNumer={guessRoundsListLenght - itemData.index} guess={itemData.item} />}
                     keyExtractor={(item) => item}
                 />
             </View>
@@ -91,7 +94,8 @@ export default GameScreen;
 const styles = StyleSheet.create({
     screenContainer: {
         flex: 1,
-        marginTop: 100,
+        padding: 24,
+        marginTop: 60,
         alignItems: 'center'
     },
     instructionText: {
@@ -103,5 +107,9 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         flex: 1
+    },
+    roundsContainer: {
+        flex: 1,
+        padding: 16
     }
 });

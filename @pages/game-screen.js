@@ -1,4 +1,4 @@
-import { Alert, StyleSheet, View, Text, FlatList } from 'react-native';
+import { Alert, StyleSheet, View, FlatList, useWindowDimensions } from 'react-native';
 import { useState, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import Card from '../@components/ui/card';
@@ -24,6 +24,8 @@ function GameScreen({ userNumber, onGameOver }) {
     const intialGuess = generateRandomBetween(1, 100, userNumber)
     const [currentGuess, setCurrentGuess] = useState(intialGuess);
     const [guessRounds, setGuessRounds] = useState([intialGuess]);
+
+    const { height, width } = useWindowDimensions();
 
     useEffect(() => {
         if (currentGuess === userNumber) {
@@ -58,25 +60,50 @@ function GameScreen({ userNumber, onGameOver }) {
         setGuessRounds(prevGuessRounds => [newRandom, ...prevGuessRounds]);
     }
 
-    return (
-        <View style={styles.screenContainer}>
-            <Title>Opponent's Guess</Title>
-            <NumberContainer>{currentGuess}</NumberContainer>
-            <Card>
-                <InstructionText style={styles.instructionText}>Higher or lower?</InstructionText>
-                <View style={styles.buttonsContainer}>
-                    <View style={styles.buttonContainer}>
-                        <PrimaryButton onPress={nextGuessHandler.bind(this, 'lower')}>
-                            <Ionicons name="remove" size={24} color="white" />
-                        </PrimaryButton>
-                    </View>
-                    <View style={styles.buttonContainer}>
-                        <PrimaryButton onPress={nextGuessHandler.bind(this, 'greater')}>
-                            <Ionicons name="add" size={24} color="white" />
-                        </PrimaryButton>
-                    </View>
+    const marginTop = width > 500 ? 30 : 60;
+
+    let content = <>
+        <Title>Opponent's Guess</Title>
+        <NumberContainer>{currentGuess}</NumberContainer>
+        <Card>
+            <InstructionText style={styles.instructionText}>Higher or lower?</InstructionText>
+            <View style={styles.buttonsContainer}>
+                <View style={styles.buttonContainer}>
+                    <PrimaryButton onPress={nextGuessHandler.bind(this, 'lower')}>
+                        <Ionicons name="remove" size={24} color="white" />
+                    </PrimaryButton>
                 </View>
-            </Card>
+                <View style={styles.buttonContainer}>
+                    <PrimaryButton onPress={nextGuessHandler.bind(this, 'greater')}>
+                        <Ionicons name="add" size={24} color="white" />
+                    </PrimaryButton>
+                </View>
+            </View>
+        </Card>
+    </>
+
+    if (width > 500) {
+        content = <>
+            <Title>Opponent's Guess</Title>
+            <View style={styles.buttonsContainerWide}>
+                <View style={styles.buttonContainer}>
+                    <PrimaryButton onPress={nextGuessHandler.bind(this, 'lower')}>
+                        <Ionicons name="remove" size={24} color="white" />
+                    </PrimaryButton>
+                </View>
+                <NumberContainer>{currentGuess}</NumberContainer>
+                <View style={styles.buttonContainer}>
+                    <PrimaryButton onPress={nextGuessHandler.bind(this, 'greater')}>
+                        <Ionicons name="add" size={24} color="white" />
+                    </PrimaryButton>
+                </View>
+            </View>
+        </>
+    }
+
+    return (
+        <View style={[styles.screenContainer, { marginTop: marginTop }]}>
+            {content}
             <View style={styles.roundsContainer}>
                 {/* {guessRounds.map(item => (<Text key={item}>{item}</Text>))} */}
                 <FlatList
@@ -107,6 +134,10 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         flex: 1
+    },
+    buttonsContainerWide: {
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     roundsContainer: {
         flex: 1,

@@ -17,8 +17,8 @@ const styles = StyleSheet.create({
         color: Colors.accent100,
         textAlign: 'center',
         // borderWidth: Platform.OS === 'android' ? 2 : 0,
-        borderWidth: Platform.select({ ios: 0, android: 2 }),
-        borderColor: Colors.accent100,
+        // borderWidth: Platform.select({ ios: 0, android: 2 }),
+        // borderColor: Colors.accent100,
         padding: 12
     }
 });

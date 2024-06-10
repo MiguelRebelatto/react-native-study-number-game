@@ -28,7 +28,11 @@ function GameScreen({ userNumber, onGameOver }) {
         if (currentGuess === userNumber) {
             onGameOver();
         }
+<<<<<<< HEAD
     }, [currentGuess, userNumber, onGameOver])  
+=======
+    }, [])
+>>>>>>> ed0210025d171aa4176c04725391ce779b83f231
 
     // execute on init component
     useEffect(() => {
